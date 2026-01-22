@@ -1,13 +1,17 @@
 package com.example.RateLimiting.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import lombok.Data;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
 
+/**
+ * Configuration properties for Redis connection.
+ * 
+ * <p>This class holds Redis connection properties loaded from application.properties.
+ * The JedisPool bean is created in a separate configuration class to follow
+ * Single Responsibility Principle.</p>
+ */
 @Component
 @Data
 @ConfigurationProperties(prefix = "spring.redis")
@@ -15,19 +19,4 @@ public class RedisProperties {
     private String host = "localhost";
     private int port = 6379;
     private int timeout = 2000;
-
-    //Java client library for Redis. 
-    //Lets Java application communicate with Redis server
-
-    @Bean
-    public JedisPool getJedisPool() {
-        //Jedispool keeps multiple connections ready to reuse. 
-        JedisPoolConfig poolConfig = new JedisPoolConfig();
-        poolConfig.setMaxTotal(50);
-        poolConfig.setMaxIdle(10);
-        poolConfig.setMinIdle(5);
-        poolConfig.setTestOnBorrow(true);
-        poolConfig.setTestOnReturn(true);
-        return new JedisPool(poolConfig, host, port, timeout);
-    }
 }
