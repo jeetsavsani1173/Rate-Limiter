@@ -11,7 +11,8 @@ import lombok.Data;
 public class RateLimiterProperties {
 
     private long capacity = 10;
-    private long refillRate = 5;
+    private long refillRate = 5; // per second
+    private long refillInterval = 100000; // in milliseconds
     private String apiServerUrl = "http://localhost:8080";
     private long timeout = 5000;
 }
